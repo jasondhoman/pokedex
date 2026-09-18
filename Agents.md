@@ -20,7 +20,7 @@ This repository is a React + TypeScript Pokédex built with Vite. It uses PokéA
 - PokéAPI
 - Vitest and React Testing Library
 - TanStack Form with Zod validation
-- TanStack Table for saved Pokémon data grids
+- TanStack Table for collection Pokémon data grids
 - shadcn-style UI components built on Radix primitives
 - ESLint with `@antfu/eslint-config`
 - TypeScript 6
@@ -86,7 +86,7 @@ Keep all unit and component tests under `src/shared/tests/`. Keep shared Vitest 
 - Keep server state in TanStack Query rather than duplicating it in Zustand.
 - Use Zustand for client-side favorites state and Dexie.js for IndexedDB persistence; do not use Zustand's storage middleware for favorites.
 - Discover recommendations must filter out the current favorites list immediately before selecting a random result.
-- Use TanStack Table for tabular saved Pokémon data; keep row actions explicit and preserve row selection for the detail view.
+- Use TanStack Table for tabular collection Pokémon data; keep row actions explicit and preserve row selection for the detail view.
 - Use TanStack Table v9's current `useTable`, `tableFeatures`, and `createColumnHelper` APIs; do not import deprecated legacy compatibility APIs.
 - Use Tailwind CSS utilities for new styling; preserve existing semantic CSS classes when changing established UI.
 - Keep global styles in `src/index.scss`; new styles must use SCSS syntax and should not introduce additional global CSS files.

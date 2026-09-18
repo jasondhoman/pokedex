@@ -26,8 +26,8 @@ function Shell() {
           </Link>
           <nav>
             <Link to="/discover" activeProps={{ className: "active" }}>Discover</Link>
-            <Link to="/saved" activeProps={{ className: "active" }} className="favorites-nav">
-              <PokeballIcon active={pathname === "/saved"} size={16} />
+            <Link to="/collection" activeProps={{ className: "active" }} className="favorites-nav">
+              <PokeballIcon active={pathname === "/collection"} size={16} />
               {" "}
               {favoritesCount}
               {" "}

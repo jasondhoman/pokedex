@@ -10,8 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CollectionRouteImport } from './routes/collection'
 import { Route as DiscoverRouteImport } from './routes/discover'
-import { Route as SavedRouteImport } from './routes/saved'
 import { Route as PokemonPokemonNameRouteImport } from './routes/pokemon/$pokemonName'
 
 const IndexRoute = IndexRouteImport.update({
@@ -19,14 +19,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CollectionRoute = CollectionRouteImport.update({
+  id: '/collection',
+  path: '/collection',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DiscoverRoute = DiscoverRouteImport.update({
   id: '/discover',
   path: '/discover',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SavedRoute = SavedRouteImport.update({
-  id: '/saved',
-  path: '/saved',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PokemonPokemonNameRoute = PokemonPokemonNameRouteImport.update({
@@ -37,35 +37,35 @@ const PokemonPokemonNameRoute = PokemonPokemonNameRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/collection': typeof CollectionRoute
   '/discover': typeof DiscoverRoute
-  '/saved': typeof SavedRoute
   '/pokemon/$pokemonName': typeof PokemonPokemonNameRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/collection': typeof CollectionRoute
   '/discover': typeof DiscoverRoute
-  '/saved': typeof SavedRoute
   '/pokemon/$pokemonName': typeof PokemonPokemonNameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/collection': typeof CollectionRoute
   '/discover': typeof DiscoverRoute
-  '/saved': typeof SavedRoute
   '/pokemon/$pokemonName': typeof PokemonPokemonNameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/discover' | '/saved' | '/pokemon/$pokemonName'
+  fullPaths: '/' | '/collection' | '/discover' | '/pokemon/$pokemonName'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/discover' | '/saved' | '/pokemon/$pokemonName'
-  id: '__root__' | '/' | '/discover' | '/saved' | '/pokemon/$pokemonName'
+  to: '/' | '/collection' | '/discover' | '/pokemon/$pokemonName'
+  id: '__root__' | '/' | '/collection' | '/discover' | '/pokemon/$pokemonName'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CollectionRoute: typeof CollectionRoute
   DiscoverRoute: typeof DiscoverRoute
-  SavedRoute: typeof SavedRoute
   PokemonPokemonNameRoute: typeof PokemonPokemonNameRoute
 }
 
@@ -78,18 +78,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/collection': {
+      id: '/collection'
+      path: '/collection'
+      fullPath: '/collection'
+      preLoaderRoute: typeof CollectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/discover': {
       id: '/discover'
       path: '/discover'
       fullPath: '/discover'
       preLoaderRoute: typeof DiscoverRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/saved': {
-      id: '/saved'
-      path: '/saved'
-      fullPath: '/saved'
-      preLoaderRoute: typeof SavedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pokemon/$pokemonName': {
@@ -104,8 +104,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CollectionRoute: CollectionRoute,
   DiscoverRoute: DiscoverRoute,
-  SavedRoute: SavedRoute,
   PokemonPokemonNameRoute: PokemonPokemonNameRoute,
 }
 export const routeTree = rootRouteImport

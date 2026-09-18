@@ -85,7 +85,7 @@ export function DiscoverForm() {
         <h1>
           Who will you meet?
         </h1>
-        <p>Tell us what you are looking for and we will pick a Pokémon you have not saved yet.</p>
+        <p>Tell us what you are looking for and we will pick a Pokémon you have not added to your collection yet.</p>
         <div className="discover-note">
           <Dices size={17} />
           {" "}
@@ -177,7 +177,7 @@ export function DiscoverForm() {
                 </div>
               </div>
             )
-            : <div className="discover-empty">No unsaved Pokémon match those preferences. Try broadening your search or saving fewer Pokémon.</div>
+            : <div className="discover-empty">No collection Pokémon match those preferences. Try broadening your search or adding fewer Pokémon.</div>
         )}
       </section>
     </div>

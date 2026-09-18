@@ -9,10 +9,10 @@ The app uses the public [PokéAPI](https://pokeapi.co/) to display the first 24 
 - Browse a responsive Pokémon catalog.
 - Search the loaded catalog by Pokémon name.
 - Navigate through the catalog with URL-backed pagination.
-- Use Discover to answer preference questions and receive a random unsaved Pokémon match.
+- Use Discover to answer preference questions and receive a random Pokémon that is not in your collection.
 - Open a dynamic detail page at `/pokemon/:pokemonName`.
 - Save and remove favorites with Zustand state persisted to IndexedDB through Dexie.js.
-- View saved Pokémon in a TanStack Table with row selection, common attributes, and unsave actions.
+- View collection Pokémon in a TanStack Table with row selection, common attributes, and unsave actions.
 - See loading skeletons, empty search results, and API error states.
 
 ## Technology

@@ -20,7 +20,7 @@ import { Button } from "@/shared/ui/button";
 import { PokeballIcon } from "@/shared/ui/pokeball-icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 
-export const Route = createFileRoute("/saved")({ component: SavedPage });
+export const Route = createFileRoute("/collection")({ component: CollectionPage });
 
 const features = tableFeatures({});
 const columnHelper = createColumnHelper<typeof features, Pokemon>();
@@ -28,7 +28,7 @@ type PageSize = 10 | 20 | 30 | "all";
 type SortKey = "id" | "name" | "types" | "height" | "weight";
 type SortDirection = "asc" | "desc";
 
-export function SavedPage() {
+export function CollectionPage() {
   const favorites = useFavoritesStore(state => state.favorites);
   const toggleFavorite = useFavoritesStore(state => state.toggleFavorite);
   const [search, setSearch] = useState("");
@@ -37,8 +37,8 @@ export function SavedPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState<PageSize>(10);
   const [sort, setSort] = useState<{ key: SortKey; direction: SortDirection }>({ key: "id", direction: "asc" });
-  const { data: savedPokemon = [], isLoading, isError } = useQuery({
-    queryKey: ["pokemon", "saved", favorites],
+  const { data: collectionPokemon = [], isLoading, isError } = useQuery({
+    queryKey: ["pokemon", "collection", favorites],
     queryFn: () => Promise.all(favorites.map(name => pokemonApi.detail(name))),
     enabled: favorites.length > 0,
   });
@@ -50,8 +50,8 @@ export function SavedPage() {
       setSelectedName(favorites[0]);
   }, [favorites, selectedName]);
 
-  const selectedPokemon = savedPokemon.find(pokemon => pokemon.name === selectedName) ?? null;
-  const filteredPokemon = savedPokemon.filter(pokemon => pokemon.name.includes(debouncedSearch.trim().toLowerCase()));
+  const selectedPokemon = collectionPokemon.find(pokemon => pokemon.name === selectedName) ?? null;
+  const filteredPokemon = collectionPokemon.filter(pokemon => pokemon.name.includes(debouncedSearch.trim().toLowerCase()));
   const sortedPokemon = useMemo(() => [...filteredPokemon].sort((a, b) => {
     const first = sort.key === "types" ? a.types.map(({ type }) => type.name).join(" / ") : a[sort.key];
     const second = sort.key === "types" ? b.types.map(({ type }) => type.name).join(" / ") : b[sort.key];
@@ -124,48 +124,48 @@ export function SavedPage() {
   }
 
   return (
-    <div className="page-container saved-page">
-      <section className="saved-heading">
+    <div className="page-container collection-page">
+      <section className="collection-heading">
         <div>
           <div className="eyebrow">
             <PokeballIcon size={14} />
             {" "}
-            YOUR SAVED POKÉMON
+            YOUR COLLECTION POKÉMON
           </div>
           <h1>Your collection.</h1>
           <p>Click a row to inspect a Pokémon. You can remove favorites whenever you like.</p>
         </div>
-        <span className="saved-count">
+        <span className="collection-count">
           {favorites.length}
           {" "}
-          saved
+          collection
         </span>
       </section>
-      {isLoading && <div className="saved-status">Loading your collection...</div>}
-      {isError && <div className="saved-status">We could not load your saved Pokémon. Please try again.</div>}
+      {isLoading && <div className="collection-status">Loading your collection...</div>}
+      {isError && <div className="collection-status">We could not load your collection Pokémon. Please try again.</div>}
       {!isLoading && !isError && favorites.length === 0 && (
-        <div className="saved-empty">
+        <div className="collection-empty">
           <PokeballIcon size={24} />
-          <h2>No saved Pokémon yet.</h2>
+          <h2>No collection Pokémon yet.</h2>
           <p>Favorite a Pokémon from the catalog to see it here.</p>
         </div>
       )}
       {!isLoading && !isError && favorites.length > 0 && (
         <>
-          <div className="saved-table-toolbar">
+          <div className="collection-table-toolbar">
             <PokemonSearch isLoading={search !== debouncedSearch} value={search} onChange={setSearch} />
             <span className="result-count">
               {filteredPokemon.length}
               {" "}
               of
               {" "}
-              {savedPokemon.length}
+              {collectionPokemon.length}
               {" "}
-              saved
+              collection
             </span>
           </div>
-          <div className="saved-table-wrap">
-            <table className="saved-table">
+          <div className="collection-table-wrap">
+            <table className="collection-table">
               <thead>
                 {table.getHeaderGroups().map(headerGroup => (
                   <tr key={headerGroup.id}>
@@ -193,7 +193,7 @@ export function SavedPage() {
                 {sortedPokemon.length === 0 && (
                   <tr>
                     <td colSpan={columns.length}>
-                      No saved Pokémon match “
+                      No collection Pokémon match “
                       {search}
                       ”.
                     </td>
@@ -202,7 +202,7 @@ export function SavedPage() {
               </tbody>
             </table>
           </div>
-          <div className="saved-table-pagination">
+          <div className="collection-table-pagination">
             <span>
               {sortedPokemon.length === 0 ? 0 : ((currentPage - 1) * (pageSize === "all" ? sortedPokemon.length : pageSize)) + 1}
               –
@@ -210,12 +210,12 @@ export function SavedPage() {
               {" of "}
               {sortedPokemon.length}
             </span>
-            <div className="saved-page-controls">
+            <div className="collection-page-controls">
               <Button type="button" variant="outline" onClick={() => setPage(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
               <span>{`Page ${currentPage} of ${totalPages}`}</span>
               <Button type="button" variant="outline" onClick={() => setPage(currentPage + 1)} disabled={currentPage === totalPages}>Next</Button>
               <Select value={String(pageSize)} onValueChange={value => setPageSize(value === "all" ? "all" : Number(value) as PageSize)}>
-                <SelectTrigger className="saved-page-size"><SelectValue /></SelectTrigger>
+                <SelectTrigger className="collection-page-size"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="10">10 per page</SelectItem>
                   <SelectItem value="20">20 per page</SelectItem>
@@ -225,23 +225,23 @@ export function SavedPage() {
               </Select>
             </div>
           </div>
-          {selectedPokemon && <SavedDetail pokemon={selectedPokemon} />}
+          {selectedPokemon && <CollectionDetail pokemon={selectedPokemon} />}
         </>
       )}
     </div>
   );
 }
 
-function SavedDetail({ pokemon }: { pokemon: Pokemon }) {
+function CollectionDetail({ pokemon }: { pokemon: Pokemon }) {
   const artwork = pokemon.sprites.other?.["official-artwork"]?.front_default ?? pokemon.sprites.front_default;
   return (
-    <article className="saved-detail">
-      <div className="saved-detail-art"><img src={artwork ?? ""} alt={pokemon.name} /></div>
-      <div className="saved-detail-copy">
+    <article className="collection-detail">
+      <div className="collection-detail-art"><img src={artwork ?? ""} alt={pokemon.name} /></div>
+      <div className="collection-detail-copy">
         <span className="result-label">SELECTED POKÉMON</span>
         <h2>{formatPokemonName(pokemon.name)}</h2>
         <div className="type-list">{pokemon.types.map(({ type }) => <span className={`type-pill type-${type.name}`} key={type.name}>{type.name}</span>)}</div>
-        <div className="saved-detail-stats">
+        <div className="collection-detail-stats">
           <span>
             Height
             <strong>

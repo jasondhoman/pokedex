@@ -7,7 +7,7 @@ import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useFavoritesStore } from "@/features/favorites/model/store";
-import { SavedPage } from "@/routes/saved";
+import { CollectionPage } from "@/routes/collection";
 import { pokemonApi } from "@/shared/api/pokemon";
 
 vi.mock("@tanstack/react-router", () => ({
@@ -37,31 +37,31 @@ const charmander: Pokemon = {
   types: [{ type: { name: "fire" } }],
 };
 
-function renderSaved() {
+function renderCollection() {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
     <QueryClientProvider client={queryClient}>
-      <SavedPage />
+      <CollectionPage />
     </QueryClientProvider>,
   );
 }
 
-describe("savedPage", () => {
+describe("collectionPage", () => {
   beforeEach(() => {
     useFavoritesStore.setState({ favorites: [] });
     vi.spyOn(pokemonApi, "detail").mockImplementation(async name => name === "charmander" ? charmander : bulbasaur);
   });
 
   it("renders the empty collection state", () => {
-    renderSaved();
+    renderCollection();
 
-    expect(screen.getByRole("heading", { name: /no saved pokémon yet/i })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /no collection pokémon yet/i })).toBeInTheDocument();
   });
 
-  it("renders saved rows and shows details after selecting a row", async () => {
+  it("renders collection rows and shows details after selecting a row", async () => {
     const user = userEvent.setup();
     useFavoritesStore.setState({ favorites: ["bulbasaur"] });
-    renderSaved();
+    renderCollection();
 
     const row = await screen.findByRole("row", { name: /bulbasaur/i });
     expect(screen.getByText("#001")).toBeInTheDocument();
@@ -75,7 +75,7 @@ describe("savedPage", () => {
   it("unsaves a Pokémon without selecting its row", async () => {
     const user = userEvent.setup();
     useFavoritesStore.setState({ favorites: ["bulbasaur"] });
-    renderSaved();
+    renderCollection();
 
     await screen.findByRole("row", { name: /bulbasaur/i });
     await user.click(screen.getByRole("button", { name: /unsave bulbasaur/i }));
@@ -83,10 +83,10 @@ describe("savedPage", () => {
     expect(useFavoritesStore.getState().favorites).toEqual([]);
   });
 
-  it("filters saved rows by Pokémon name", async () => {
+  it("filters collection rows by Pokémon name", async () => {
     const user = userEvent.setup();
     useFavoritesStore.setState({ favorites: ["bulbasaur", "charmander"] });
-    renderSaved();
+    renderCollection();
 
     await screen.findByRole("row", { name: /bulbasaur/i });
     const search = screen.getByRole("textbox", { name: /search pokémon/i });
@@ -94,18 +94,18 @@ describe("savedPage", () => {
 
     await waitFor(() => expect(screen.getByRole("row", { name: /charmander/i })).toBeInTheDocument());
     await waitFor(() => expect(screen.queryByRole("row", { name: /bulbasaur/i })).not.toBeInTheDocument());
-    expect(screen.getByText("1 of 2 saved")).toBeInTheDocument();
+    expect(screen.getByText("1 of 2 collection")).toBeInTheDocument();
   });
 
-  it("shows an empty result when no saved row matches", async () => {
+  it("shows an empty result when no collection row matches", async () => {
     const user = userEvent.setup();
     useFavoritesStore.setState({ favorites: ["bulbasaur"] });
-    renderSaved();
+    renderCollection();
 
     await screen.findByRole("row", { name: /bulbasaur/i });
     await user.type(screen.getByRole("textbox", { name: /search pokémon/i }), "mewtwo");
 
-    await waitFor(() => expect(screen.getByText(/no saved pokémon match/i)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/no collection pokémon match/i)).toBeInTheDocument());
   });
 
   it("sorts rows and pages through the collection", async () => {
@@ -117,7 +117,7 @@ describe("savedPage", () => {
       id: names.indexOf(name) + 1,
       name,
     }));
-    renderSaved();
+    renderCollection();
 
     expect(await screen.findByText("Page 1 of 2")).toBeInTheDocument();
     expect(screen.getByRole("row", { name: /zubat/i })).toBeInTheDocument();

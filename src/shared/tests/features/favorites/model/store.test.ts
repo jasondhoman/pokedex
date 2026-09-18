@@ -26,7 +26,7 @@ describe("favorites store", () => {
     expect(useFavoritesStore.getState().favorites).toEqual(["bulbasaur", "pikachu"]);
   });
 
-  it("hydrates favorites from IndexedDB in saved order", async () => {
+  it("hydrates favorites from IndexedDB in collection order", async () => {
     await favoritesDatabase.favorites.bulkAdd([
       { name: "pikachu", position: 1 },
       { name: "bulbasaur", position: 0 },

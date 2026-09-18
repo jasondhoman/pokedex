@@ -61,7 +61,7 @@ describe("discoverForm", () => {
     vi.spyOn(pokemonApi, "detail").mockResolvedValue(pikachu);
   });
 
-  it("discovers and displays an unsaved match", async () => {
+  it("discovers and displays a collection match", async () => {
     const user = userEvent.setup();
     renderDiscover();
 
@@ -79,7 +79,7 @@ describe("discoverForm", () => {
 
     await user.click(screen.getByRole("button", { name: /discover pokémon/i }));
 
-    expect(await screen.findByText(/no unsaved pokémon match/i)).toBeInTheDocument();
+    expect(await screen.findByText(/no collection pokémon match/i)).toBeInTheDocument();
     expect(screen.queryByText("YOUR MATCH")).not.toBeInTheDocument();
   });
 });

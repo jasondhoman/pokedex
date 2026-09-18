@@ -10,10 +10,10 @@ type ThemeState = {
 function getInitialTheme(): Theme {
   if (typeof window === "undefined")
     return "dark";
-  const savedTheme = window.localStorage.getItem("pokedex-theme");
-  if (savedTheme === "terminal")
+  const collectionTheme = window.localStorage.getItem("pokedex-theme");
+  if (collectionTheme === "terminal")
     return "dark";
-  return savedTheme === "light" || savedTheme === "dark" ? savedTheme : "dark";
+  return collectionTheme === "light" || collectionTheme === "dark" ? collectionTheme : "dark";
 }
 
 export const useThemeStore = create<ThemeState>((set, get) => ({
