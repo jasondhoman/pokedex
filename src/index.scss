@@ -306,6 +306,67 @@ nav a.active {
   padding: clamp(1rem, 3vw, 1.375rem) 0;
   margin-bottom: 24px;
 }
+.catalog-filters {
+  margin: 0 0 2rem;
+  padding: 1.5rem;
+  border: 1px solid #dedbd4;
+  border-radius: 0.5rem;
+  background: #faf9f6;
+}
+.catalog-filters-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.catalog-filters-heading h2 {
+  margin: 0.75rem 0 0;
+  color: #282522;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+}
+.catalog-filter-search {
+  max-width: 36rem;
+  margin-top: 1.5rem;
+}
+.catalog-filter-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.catalog-filter-fields label {
+  display: grid;
+  gap: 0.5rem;
+  color: #8f8b84;
+  font: 0.65rem "DM Mono";
+  text-transform: uppercase;
+}
+.catalog-filter-fields select {
+  min-width: 0;
+}
+.catalog-filters-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.catalog-filter-status {
+  display: block;
+  margin-top: 1rem;
+  color: #8f8b84;
+  font: 0.65rem "DM Mono";
+}
+.app-shell[data-theme="dark"] .catalog-filters {
+  border-color: #1d6b2d;
+  background: #0b1d0d;
+}
+.app-shell[data-theme="dark"] .catalog-filters-heading h2 {
+  color: var(--dark-green);
+}
+.app-shell[data-theme="dark"] .catalog-filter-fields label,
+.app-shell[data-theme="dark"] .catalog-filter-status {
+  color: #54c96c;
+}
 .search-box {
   width: min(430px, 100%);
   display: flex;
@@ -983,6 +1044,9 @@ footer a {
   gap: 10px;
 }
 @media (max-width: 800px) {
+  .catalog-filter-fields {
+    grid-template-columns: 1fr;
+  }
   .pokemon-grid,
   .loading-grid {
     grid-template-columns: repeat(2, 1fr);

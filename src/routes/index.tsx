@@ -1,16 +1,20 @@
+import type { CatalogFilters as CatalogFiltersState } from "@/features/catalog-filters/catalog-filters";
+
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+
 import { z } from "zod";
 
 import { PokemonCard } from "@/entities/pokemon/pokemon-card";
-import { PokemonSearch } from "@/features/search/pokemon-search";
+import { CatalogFilters } from "@/features/catalog-filters/catalog-filters";
 import { pokemonApi } from "@/shared/api/pokemon";
 import { useDebouncedValue } from "@/shared/lib/use-debounced-value";
 import { Button } from "@/shared/ui/button";
 
 const PAGE_SIZE = 24;
+const defaultFilters = { type: "any", height: "any", weight: "any" } as const;
 
 export const Route = createFileRoute("/")({
   validateSearch: z.object({
@@ -21,6 +25,7 @@ export const Route = createFileRoute("/")({
 
 export function CatalogPage() {
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState<CatalogFiltersState>(defaultFilters);
   const debouncedSearch = useDebouncedValue(search);
   const previousSearch = useRef(debouncedSearch);
   const { page } = Route.useSearch();
@@ -29,7 +34,18 @@ export function CatalogPage() {
     queryKey: ["pokemon", "list"],
     queryFn: () => pokemonApi.list(1302),
   });
-  const filtered = data?.results.filter(pokemon => pokemon.name.includes(debouncedSearch.trim().toLowerCase())) ?? [];
+  const { data: pokemonDetails = [], isLoading: isLoadingAttributes } = useQuery({
+    queryKey: ["pokemon", "attributes"],
+    queryFn: () => Promise.all((data?.results ?? []).map(pokemon => pokemonApi.detail(pokemon.name))),
+    enabled: Boolean(data) && hasActiveFilters(filters),
+  });
+  const detailsByName = new Map(pokemonDetails.map(pokemon => [pokemon.name, pokemon]));
+  const filtered = data?.results.filter((pokemon) => {
+    if (!pokemon.name.includes(debouncedSearch.trim().toLowerCase()))
+      return false;
+    const detail = detailsByName.get(pokemon.name);
+    return !hasActiveFilters(filters) || (detail !== undefined && matchesFilters(detail, filters));
+  }) ?? [];
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = Math.min(page, totalPages);
   const offset = (currentPage - 1) * PAGE_SIZE;
@@ -46,9 +62,14 @@ export function CatalogPage() {
   useEffect(() => {
     if (previousSearch.current !== debouncedSearch) {
       previousSearch.current = debouncedSearch;
-      void navigate({ search: { page: 1 } });
+      void navigate({ resetScroll: false, search: { page: 1 } });
     }
   }, [debouncedSearch, navigate]);
+
+  useEffect(() => {
+    if (hasActiveFilters(filters))
+      void navigate({ resetScroll: false, search: { page: 1 } });
+  }, [filters, navigate]);
 
   return (
     <div className="page-container">
@@ -65,8 +86,16 @@ export function CatalogPage() {
         </h1>
         <p>Explore the world of Pokémon. Discover their strengths, stories, and what makes each one unique.</p>
       </section>
-      <section className="toolbar" aria-label="Catalog controls">
-        <PokemonSearch isLoading={search !== debouncedSearch} value={search} onChange={updateSearch} />
+      <CatalogFilters
+        filters={filters}
+        search={search}
+        isSearchLoading={search !== debouncedSearch}
+        isLoadingAttributes={isLoadingAttributes}
+        onChange={setFilters}
+        onSearchChange={updateSearch}
+        onClear={() => setFilters(defaultFilters)}
+      />
+      <section className="toolbar" aria-label="Catalog results">
         <span className="result-count">
           {filtered.length ? offset + 1 : 0}
           –
@@ -114,4 +143,21 @@ export function CatalogPage() {
       )}
     </div>
   );
+}
+
+function hasActiveFilters(filters: CatalogFiltersState) {
+  return filters.type !== "any" || filters.height !== "any" || filters.weight !== "any";
+}
+
+function matchesFilters(pokemon: { types: Array<{ type: { name: string } }>; height: number; weight: number }, filters: CatalogFiltersState) {
+  const matchesType = filters.type === "any" || pokemon.types.some(({ type }) => type.name === filters.type);
+  const matchesHeight = filters.height === "any"
+    || (filters.height === "small" && pokemon.height <= 10)
+    || (filters.height === "medium" && pokemon.height > 10 && pokemon.height <= 20)
+    || (filters.height === "large" && pokemon.height > 20);
+  const matchesWeight = filters.weight === "any"
+    || (filters.weight === "light" && pokemon.weight <= 100)
+    || (filters.weight === "medium" && pokemon.weight > 100 && pokemon.weight <= 500)
+    || (filters.weight === "heavy" && pokemon.weight > 500);
+  return matchesType && matchesHeight && matchesWeight;
 }
