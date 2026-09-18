@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { z } from "zod";
 
 import { PokemonCard } from "@/entities/pokemon/pokemon-card";
@@ -19,9 +19,10 @@ export const Route = createFileRoute("/")({
   component: CatalogPage,
 });
 
-function CatalogPage() {
+export function CatalogPage() {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebouncedValue(search);
+  const previousSearch = useRef(debouncedSearch);
   const { page } = Route.useSearch();
   const navigate = Route.useNavigate();
   const { data, isLoading, isError } = useQuery({
@@ -43,9 +44,11 @@ function CatalogPage() {
   }
 
   useEffect(() => {
-    if (currentPage !== 1)
+    if (previousSearch.current !== debouncedSearch) {
+      previousSearch.current = debouncedSearch;
       void navigate({ search: { page: 1 } });
-  }, [currentPage, debouncedSearch, navigate]);
+    }
+  }, [debouncedSearch, navigate]);
 
   return (
     <div className="page-container">

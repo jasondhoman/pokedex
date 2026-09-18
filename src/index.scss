@@ -108,7 +108,18 @@ input {
 }
 #root {
   min-height: 100vh;
+}
+.app-shell {
+  min-height: 100vh;
   display: flex;
+  flex-direction: column;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+main {
+  display: flex;
+  flex: 1;
   flex-direction: column;
 }
 .site-header {
@@ -162,6 +173,25 @@ nav a.active {
 }
 .favorites-nav.active {
   color: #282522;
+}
+.theme-toggle {
+  display: inline-flex;
+  gap: 2px;
+  border: 1px solid #dedbd4;
+  border-radius: 999px;
+  background: #f0efeb;
+  padding: 3px;
+  color: #8f8b84;
+  font: 9px "DM Mono";
+  cursor: pointer;
+}
+.theme-toggle span {
+  border-radius: 999px;
+  padding: 5px 7px;
+}
+.theme-toggle span.active {
+  background: #282522;
+  color: #fff;
 }
 .page-container {
   min-width: 0;
@@ -679,6 +709,85 @@ footer {
 }
 footer a {
   color: #ef5350;
+}
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.app-shell[data-theme="terminal"] {
+  --terminal-green: #5cff857d;
+  background: #071107;
+  color: var(--terminal-green);
+  font-family: "DM Mono", monospace;
+}
+.app-shell[data-theme="terminal"] .site-header,
+.app-shell[data-theme="terminal"] footer {
+  border-color: #1d6b2d;
+  background: #071107;
+  color: #54c96c;
+}
+.app-shell[data-theme="terminal"] .brand,
+.app-shell[data-theme="terminal"] nav a.active,
+.app-shell[data-theme="terminal"] .favorites-nav.active,
+.app-shell[data-theme="terminal"] .brand > span:last-child span,
+.app-shell[data-theme="terminal"] footer a,
+.app-shell[data-theme="terminal"] .github-link {
+  color: var(--terminal-green);
+}
+.app-shell[data-theme="terminal"] .brand-mark,
+.app-shell[data-theme="terminal"] .ui-button-default,
+.app-shell[data-theme="terminal"] .theme-toggle span.active {
+  background: var(--terminal-green);
+  color: #071107;
+}
+.app-shell[data-theme="terminal"] .theme-toggle {
+  border-color: #1d6b2d;
+  background: #0c2110;
+  color: #54c96c;
+}
+.app-shell[data-theme="terminal"] .hero-copy p,
+.app-shell[data-theme="terminal"] .discover-intro p,
+.app-shell[data-theme="terminal"] .result-count,
+.app-shell[data-theme="terminal"] .card-copy span,
+.app-shell[data-theme="terminal"] .card-number,
+.app-shell[data-theme="terminal"] .eyebrow,
+.app-shell[data-theme="terminal"] .discover-note {
+  color: #54c96c;
+}
+.app-shell[data-theme="terminal"] .pokemon-card,
+.app-shell[data-theme="terminal"] .discover-panel,
+.app-shell[data-theme="terminal"] .detail-card,
+.app-shell[data-theme="terminal"] .saved-table {
+  border-color: #1d6b2d;
+  background: #0b1d0d;
+}
+.app-shell[data-theme="terminal"] .card-image,
+.app-shell[data-theme="terminal"] .discover-result-art,
+.app-shell[data-theme="terminal"] .saved-detail-art,
+.app-shell[data-theme="terminal"] .ui-select-trigger,
+.app-shell[data-theme="terminal"] .search-box {
+  background: #0f2a13;
+}
+.app-shell[data-theme="terminal"] .card-copy h3,
+.app-shell[data-theme="terminal"] .hero-copy h1,
+.app-shell[data-theme="terminal"] legend,
+.app-shell[data-theme="terminal"] .saved-heading h1,
+.app-shell[data-theme="terminal"] .saved-detail-copy h2 {
+  color: var(--terminal-green);
+}
+.app-shell[data-theme="terminal"] .ui-button-outline {
+  border-color: #1d6b2d;
+  background: #0b1d0d;
+  color: var(--terminal-green);
+}
+.discover-panel form {
+  display: grid;
+  row-gap: 28px;
+}
+.discover-panel fieldset {
+  display: grid;
+  gap: 10px;
 }
 @media (max-width: 800px) {
   .pokemon-grid,

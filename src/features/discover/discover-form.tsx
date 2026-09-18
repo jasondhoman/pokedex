@@ -83,9 +83,7 @@ export function DiscoverForm() {
           FIND YOUR NEXT PARTNER
         </div>
         <h1>
-          Who will
-          <br />
-          <em>you meet?</em>
+          Who will you meet?
         </h1>
         <p>Tell us what you are looking for and we will pick a Pokémon you have not saved yet.</p>
         <div className="discover-note">
@@ -160,25 +158,25 @@ export function DiscoverForm() {
         {hasSearched && !discoverQuery.isFetching && !discoverQuery.isError && (
           result
             ? (
-                <div className="discover-result">
-                  <span className="result-label">YOUR MATCH</span>
-                  <div className="discover-result-art">
-                    <span>
-                      #
-                      {String(result.id).padStart(3, "0")}
-                    </span>
-                    <img
-                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${result.id}.png`}
-                      alt={result.name}
-                    />
-                  </div>
-                  <div className="discover-result-copy">
-                    <h2>{formatPokemonName(result.name)}</h2>
-                    <p>This one is waiting to be discovered.</p>
-                    <Link to="/pokemon/$pokemonName" params={{ pokemonName: result.name }}>View profile ↗</Link>
-                  </div>
+              <div className="discover-result">
+                <span className="result-label">YOUR MATCH</span>
+                <div className="discover-result-art">
+                  <span>
+                    #
+                    {String(result.id).padStart(3, "0")}
+                  </span>
+                  <img
+                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${result.id}.png`}
+                    alt={result.name}
+                  />
                 </div>
-              )
+                <div className="discover-result-copy">
+                  <h2>{formatPokemonName(result.name)}</h2>
+                  <p>This one is waiting to be discovered.</p>
+                  <Link to="/pokemon/$pokemonName" params={{ pokemonName: result.name }}>View profile ↗</Link>
+                </div>
+              </div>
+            )
             : <div className="discover-empty">No unsaved Pokémon match those preferences. Try broadening your search or saving fewer Pokémon.</div>
         )}
       </section>
