@@ -20,6 +20,7 @@ This repository is a React + TypeScript Pokédex built with Vite. It uses PokéA
 - PokéAPI
 - Vitest and React Testing Library
 - Playwright for browser end-to-end tests
+- Husky and lint-staged for pre-commit ESLint checks
 - TanStack Form with Zod validation
 - TanStack Table for collection Pokémon data grids
 - shadcn-style UI components built on Radix primitives
@@ -38,6 +39,7 @@ pnpm test
 pnpm test:watch
 pnpm test:e2e
 pnpm test:e2e:ui
+pnpm lint:staged
 pnpm build
 pnpm preview
 ```
@@ -47,6 +49,7 @@ Linting uses the Antfu ESLint flat configuration in `eslint.config.js`, includin
 Import sorting is enforced by `perfectionist/sort-imports`: external package imports come before relative local imports, with a blank line between groups. Keep the configured ordering rather than disabling the rule.
 
 Run `pnpm test` after UI changes, `pnpm test:e2e` for browser-flow changes, and `pnpm build` after application changes.
+Commits run ESLint through the Husky `pre-commit` hook on staged JavaScript and TypeScript files.
 
 ## Architecture
 

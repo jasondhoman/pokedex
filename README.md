@@ -28,6 +28,7 @@ The app uses the public [PokéAPI](https://pokeapi.co/) to display the first 24 
 - Sass/SCSS for the global stylesheet
 - Vitest and React Testing Library for UI tests
 - Playwright for browser end-to-end tests
+- Husky and lint-staged for pre-commit ESLint checks
 - ESLint with `@antfu/eslint-config`
 
 ## Architecture
@@ -70,6 +71,8 @@ pnpm build
 ```
 
 `pnpm lint` runs Antfu's ESLint flat configuration with TypeScript-aware rules. `pnpm test` runs the Vitest suite in a JSDOM environment. `pnpm test:e2e` starts the production preview server and runs Playwright browser tests against Chromium. `pnpm build` type-checks the project and creates the production bundle.
+
+Commits automatically run ESLint on staged JavaScript and TypeScript files through Husky and lint-staged.
 
 ## GitHub Pages deployment
 
