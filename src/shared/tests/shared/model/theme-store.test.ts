@@ -5,13 +5,13 @@ import { useThemeStore } from "@/shared/model/theme-store";
 describe("theme store", () => {
   beforeEach(() => {
     window.localStorage.clear();
-    useThemeStore.setState({ theme: "classic" });
+    useThemeStore.setState({ theme: "dark" });
   });
 
-  it("toggles and persists the terminal theme", () => {
+  it("toggles and persists light mode", () => {
     useThemeStore.getState().toggleTheme();
 
-    expect(useThemeStore.getState().theme).toBe("terminal");
-    expect(window.localStorage.getItem("pokedex-theme")).toBe("terminal");
+    expect(useThemeStore.getState().theme).toBe("light");
+    expect(window.localStorage.getItem("pokedex-theme")).toBe("light");
   });
 });

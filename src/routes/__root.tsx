@@ -37,10 +37,10 @@ function Shell() {
               type="button"
               className="theme-toggle"
               onClick={toggleTheme}
-              aria-label={`Switch to ${theme === "classic" ? "terminal" : "classic"} theme`}
+              aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
             >
-              <span className={theme === "classic" ? "active" : ""}>Classic</span>
-              <span className={theme === "terminal" ? "active" : ""}>Terminal</span>
+              <span className={theme === "light" ? "active" : ""}>Light</span>
+              <span className={theme === "dark" ? "active" : ""}>Dark</span>
             </button>
           </nav>
         </header>

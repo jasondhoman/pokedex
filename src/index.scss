@@ -757,109 +757,109 @@ footer a {
   align-items: center;
   gap: 6px;
 }
-.app-shell[data-theme="terminal"] {
-  --terminal-green: #5cff857d;
+.app-shell[data-theme="dark"] {
+  --dark-green: #5cff857d;
   background: #071107;
-  color: var(--terminal-green);
+  color: var(--dark-green);
   font-family: "DM Mono", monospace;
 }
-.app-shell[data-theme="terminal"] .site-header,
-.app-shell[data-theme="terminal"] footer {
+.app-shell[data-theme="dark"] .site-header,
+.app-shell[data-theme="dark"] footer {
   border-color: #1d6b2d;
   background: #071107;
   color: #54c96c;
 }
-.app-shell[data-theme="terminal"] .brand,
-.app-shell[data-theme="terminal"] nav a.active,
-.app-shell[data-theme="terminal"] .favorites-nav.active,
-.app-shell[data-theme="terminal"] .brand > span:last-child span,
-.app-shell[data-theme="terminal"] footer a,
-.app-shell[data-theme="terminal"] .github-link {
-  color: var(--terminal-green);
+.app-shell[data-theme="dark"] .brand,
+.app-shell[data-theme="dark"] nav a.active,
+.app-shell[data-theme="dark"] .favorites-nav.active,
+.app-shell[data-theme="dark"] .brand > span:last-child span,
+.app-shell[data-theme="dark"] footer a,
+.app-shell[data-theme="dark"] .github-link {
+  color: var(--dark-green);
 }
-.app-shell[data-theme="terminal"] .brand-mark,
-.app-shell[data-theme="terminal"] .ui-button-default,
-.app-shell[data-theme="terminal"] .theme-toggle span.active {
-  background: var(--terminal-green);
+.app-shell[data-theme="dark"] .brand-mark,
+.app-shell[data-theme="dark"] .ui-button-default,
+.app-shell[data-theme="dark"] .theme-toggle span.active {
+  background: var(--dark-green);
   color: #071107;
 }
-.app-shell[data-theme="terminal"] .theme-toggle {
+.app-shell[data-theme="dark"] .theme-toggle {
   border-color: #1d6b2d;
   background: #0c2110;
   color: #54c96c;
 }
-.app-shell[data-theme="terminal"] .hero-copy p,
-.app-shell[data-theme="terminal"] .discover-intro p,
-.app-shell[data-theme="terminal"] .result-count,
-.app-shell[data-theme="terminal"] .card-copy span,
-.app-shell[data-theme="terminal"] .card-number,
-.app-shell[data-theme="terminal"] .eyebrow,
-.app-shell[data-theme="terminal"] .discover-note {
+.app-shell[data-theme="dark"] .hero-copy p,
+.app-shell[data-theme="dark"] .discover-intro p,
+.app-shell[data-theme="dark"] .result-count,
+.app-shell[data-theme="dark"] .card-copy span,
+.app-shell[data-theme="dark"] .card-number,
+.app-shell[data-theme="dark"] .eyebrow,
+.app-shell[data-theme="dark"] .discover-note {
   color: #54c96c;
 }
-.app-shell[data-theme="terminal"] .pokemon-card,
-.app-shell[data-theme="terminal"] .discover-panel,
-.app-shell[data-theme="terminal"] .detail-card,
-.app-shell[data-theme="terminal"] .saved-table,
-.app-shell[data-theme="terminal"] .saved-table-wrap,
-.app-shell[data-theme="terminal"] .saved-detail {
+.app-shell[data-theme="dark"] .pokemon-card,
+.app-shell[data-theme="dark"] .discover-panel,
+.app-shell[data-theme="dark"] .detail-card,
+.app-shell[data-theme="dark"] .saved-table,
+.app-shell[data-theme="dark"] .saved-table-wrap,
+.app-shell[data-theme="dark"] .saved-detail {
   border-color: #1d6b2d;
   background: #0b1d0d;
 }
-.app-shell[data-theme="terminal"] .saved-table th {
+.app-shell[data-theme="dark"] .saved-table th {
   background: #103518;
   color: #54c96c;
 }
-.app-shell[data-theme="terminal"] .saved-table td {
+.app-shell[data-theme="dark"] .saved-table td {
   border-color: #1d6b2d;
   color: #9be6a8;
 }
-.app-shell[data-theme="terminal"] .saved-table tbody tr:hover,
-.app-shell[data-theme="terminal"] .saved-table tbody tr.is-selected {
+.app-shell[data-theme="dark"] .saved-table tbody tr:hover,
+.app-shell[data-theme="dark"] .saved-table tbody tr.is-selected {
   background: #123b19;
 }
-.app-shell[data-theme="terminal"] .saved-table tbody tr.is-selected td:first-child,
-.app-shell[data-theme="terminal"] .table-action:hover {
-  color: var(--terminal-green);
+.app-shell[data-theme="dark"] .saved-table tbody tr.is-selected td:first-child,
+.app-shell[data-theme="dark"] .table-action:hover {
+  color: var(--dark-green);
 }
-.app-shell[data-theme="terminal"] .table-sort:hover {
-  color: var(--terminal-green);
+.app-shell[data-theme="dark"] .table-sort:hover {
+  color: var(--dark-green);
 }
-.app-shell[data-theme="terminal"] .saved-table-pagination {
+.app-shell[data-theme="dark"] .saved-table-pagination {
   color: #54c96c;
 }
-.app-shell[data-theme="terminal"] .table-action,
-.app-shell[data-theme="terminal"] .saved-count,
-.app-shell[data-theme="terminal"] .saved-detail-stats,
-.app-shell[data-theme="terminal"] .saved-status,
-.app-shell[data-theme="terminal"] .saved-empty,
-.app-shell[data-theme="terminal"] .saved-empty p {
+.app-shell[data-theme="dark"] .table-action,
+.app-shell[data-theme="dark"] .saved-count,
+.app-shell[data-theme="dark"] .saved-detail-stats,
+.app-shell[data-theme="dark"] .saved-status,
+.app-shell[data-theme="dark"] .saved-empty,
+.app-shell[data-theme="dark"] .saved-empty p {
   color: #54c96c;
 }
-.app-shell[data-theme="terminal"] .saved-detail-art {
+.app-shell[data-theme="dark"] .saved-detail-art {
   background: #0f2a13;
 }
-.app-shell[data-theme="terminal"] .saved-detail-stats strong {
-  color: var(--terminal-green);
+.app-shell[data-theme="dark"] .saved-detail-stats strong {
+  color: var(--dark-green);
 }
-.app-shell[data-theme="terminal"] .card-image,
-.app-shell[data-theme="terminal"] .discover-result-art,
-.app-shell[data-theme="terminal"] .saved-detail-art,
-.app-shell[data-theme="terminal"] .ui-select-trigger,
-.app-shell[data-theme="terminal"] .search-box {
+.app-shell[data-theme="dark"] .card-image,
+.app-shell[data-theme="dark"] .discover-result-art,
+.app-shell[data-theme="dark"] .saved-detail-art,
+.app-shell[data-theme="dark"] .ui-select-trigger,
+.app-shell[data-theme="dark"] .search-box {
   background: #0f2a13;
 }
-.app-shell[data-theme="terminal"] .card-copy h3,
-.app-shell[data-theme="terminal"] .hero-copy h1,
-.app-shell[data-theme="terminal"] legend,
-.app-shell[data-theme="terminal"] .saved-heading h1,
-.app-shell[data-theme="terminal"] .saved-detail-copy h2 {
-  color: var(--terminal-green);
+.app-shell[data-theme="dark"] .card-copy h3,
+.app-shell[data-theme="dark"] .hero-copy h1,
+.app-shell[data-theme="dark"] legend,
+.app-shell[data-theme="dark"] .saved-heading h1,
+.app-shell[data-theme="dark"] .saved-detail-copy h2 {
+  color: var(--dark-green);
 }
-.app-shell[data-theme="terminal"] .ui-button-outline {
+.app-shell[data-theme="dark"] .ui-button-outline {
   border-color: #1d6b2d;
   background: #0b1d0d;
-  color: var(--terminal-green);
+  color: var(--dark-green);
 }
 .discover-panel form {
   display: grid;
