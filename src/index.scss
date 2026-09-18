@@ -590,6 +590,11 @@ nav a.active {
   border-radius: 6px;
   background: #efeeea;
 }
+.collection-detail-art img,
+.discover-result-art img,
+.detail-art img {
+  filter: drop-shadow(0 0.75rem 0.5rem #33291a40);
+}
 .collection-detail-art img {
   width: 70%;
   height: 70%;
@@ -679,10 +684,9 @@ nav a.active {
   border: 1px solid #e9e6df;
   border-radius: 9px;
   overflow: hidden;
-  transition: 0.25s;
+  transition: box-shadow 0.25s;
 }
 .pokemon-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 14px 30px #33291a12;
 }
 .card-link {
@@ -695,16 +699,35 @@ nav a.active {
   position: relative;
   display: grid;
   place-items: center;
+  overflow: hidden;
+}
+.card-image::before {
+  position: absolute;
+  inset: 8%;
+  content: "";
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, #e5e1d9 0deg 8deg, transparent 8deg 16deg);
+  opacity: 0;
+  transform: scale(0.8) rotate(-8deg);
+  transition: opacity 0.3s ease, transform 0.4s ease;
+}
+.pokemon-card:hover .card-image::before {
+  opacity: 0.8;
+  transform: scale(1) rotate(0deg);
 }
 .card-image img {
+  position: relative;
+  z-index: 1;
   width: min(76%, 9.0625rem);
   height: auto;
   aspect-ratio: 1;
   object-fit: contain;
+  filter: drop-shadow(0 0.75rem 0.5rem #33291a40);
   transition: 0.3s;
 }
 .pokemon-card:hover .card-image img {
-  transform: scale(1.07);
+  filter: drop-shadow(0 0.75rem 0.5rem #33291a40);
+  transform: scale(1.12);
 }
 .card-number {
   position: absolute;
@@ -1022,6 +1045,15 @@ footer a {
 .app-shell[data-theme="dark"] .ui-select-trigger,
 .app-shell[data-theme="dark"] .search-box {
   background: #0f2a13;
+}
+.app-shell[data-theme="dark"] .card-image::before {
+  background: repeating-conic-gradient(from 0deg, #1d6b2d 0deg 8deg, transparent 8deg 16deg);
+}
+.app-shell[data-theme="dark"] .card-image img,
+.app-shell[data-theme="dark"] .discover-result-art img,
+.app-shell[data-theme="dark"] .detail-art img,
+.app-shell[data-theme="dark"] .collection-detail-art img {
+  filter: drop-shadow(0 0.75rem 0.5rem #00000080);
 }
 .app-shell[data-theme="dark"] .card-copy h3,
 .app-shell[data-theme="dark"] .hero-copy h1,
