@@ -65,7 +65,7 @@ export function CatalogPage() {
         </h1>
         <p>Explore the world of Pokémon. Discover their strengths, stories, and what makes each one unique.</p>
       </section>
-      <div className="toolbar">
+      <section className="toolbar" aria-label="Catalog controls">
         <PokemonSearch isLoading={search !== debouncedSearch} value={search} onChange={updateSearch} />
         <span className="result-count">
           {filtered.length ? offset + 1 : 0}
@@ -78,7 +78,7 @@ export function CatalogPage() {
           {" "}
           Pokémon
         </span>
-      </div>
+      </section>
       {isLoading && <div className="loading-grid">{Array.from({ length: 8 }, (_, index) => <div className="skeleton" key={index} />)}</div>}
       {isError && <div className="error-state">We couldn't load the Pokédex. Please refresh and try again.</div>}
       {!isLoading && !isError && (

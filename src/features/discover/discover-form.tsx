@@ -83,7 +83,7 @@ export function DiscoverForm() {
           {" "}
           FIND YOUR NEXT PARTNER
         </div>
-        <h1>
+        <h1 id="discover-page-title">
           Who will you meet?
         </h1>
         <p>Tell us what you are looking for and we will pick a Pokémon you have not added to your collection yet.</p>

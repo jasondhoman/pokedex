@@ -27,6 +27,7 @@ function Shell() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className="app-shell" data-theme={theme}>
+        <a className="skip-link" href="#main-content">Skip to main content</a>
         <header className="site-header">
           <Link to="/" className="brand">
             <span className="brand-mark">◒</span>
@@ -35,7 +36,7 @@ function Shell() {
               <span>dex</span>
             </span>
           </Link>
-          <nav>
+          <nav aria-label="Primary navigation">
             <Link to="/discover" activeProps={{ className: "active" }}>Discover</Link>
             <Link to="/collection" activeProps={{ className: "active" }} className="favorites-nav">
               <PokeballIcon active={pathname === "/collection"} size={16} />
@@ -55,7 +56,7 @@ function Shell() {
             </button>
           </nav>
         </header>
-        <main><Outlet /></main>
+        <main id="main-content" tabIndex={-1}><Outlet /></main>
         <footer>
           <span>
             Data from

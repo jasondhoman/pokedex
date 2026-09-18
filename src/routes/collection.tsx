@@ -167,11 +167,19 @@ export function CollectionPage() {
           </div>
           <div className="collection-table-wrap">
             <table className="collection-table">
+              <caption className="visually-hidden">Pokémon in your collection</caption>
               <thead>
                 {table.getHeaderGroups().map(headerGroup => (
                   <tr key={headerGroup.id}>
                     {headerGroup.headers.map(header => (
-                      <th key={header.id}>
+                      <th
+                        key={header.id}
+                        aria-sort={header.id === "actions"
+                          ? undefined
+                          : sort.key === header.id
+                            ? sort.direction === "asc" ? "ascending" : "descending"
+                            : "none"}
+                      >
                         {header.isPlaceholder || header.id === "actions"
                           ? null
                           : (
@@ -203,7 +211,7 @@ export function CollectionPage() {
               </tbody>
             </table>
           </div>
-          <div className="collection-table-pagination">
+          <nav className="collection-table-pagination" aria-label="Collection pages">
             <span>
               {sortedPokemon.length === 0 ? 0 : ((currentPage - 1) * (pageSize === "all" ? sortedPokemon.length : pageSize)) + 1}
               –
@@ -225,7 +233,7 @@ export function CollectionPage() {
                 </SelectContent>
               </Select>
             </div>
-          </div>
+          </nav>
           {selectedPokemon && <CollectionDetail pokemon={selectedPokemon} />}
         </>
       )}

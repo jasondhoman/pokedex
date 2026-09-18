@@ -33,7 +33,7 @@ export function PokemonCard({ pokemon }: Props) {
           <h3>{formatPokemonName(pokemon.name)}</h3>
           <span>
             Explore profile
-            <span aria-hidden="true">↗</span>
+            <span className="pl-1" aria-hidden="true">↗</span>
           </span>
         </div>
       </Link>
