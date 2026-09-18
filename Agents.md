@@ -19,6 +19,7 @@ This repository is a React + TypeScript Pokédex built with Vite. It uses PokéA
 - Lucide React
 - PokéAPI
 - Vitest and React Testing Library
+- Playwright for browser end-to-end tests
 - TanStack Form with Zod validation
 - TanStack Table for collection Pokémon data grids
 - shadcn-style UI components built on Radix primitives
@@ -35,6 +36,8 @@ pnpm dev
 pnpm lint
 pnpm test
 pnpm test:watch
+pnpm test:e2e
+pnpm test:e2e:ui
 pnpm build
 pnpm preview
 ```
@@ -43,7 +46,7 @@ Linting uses the Antfu ESLint flat configuration in `eslint.config.js`, includin
 
 Import sorting is enforced by `perfectionist/sort-imports`: external package imports come before relative local imports, with a blank line between groups. Keep the configured ordering rather than disabling the rule.
 
-Run `pnpm test` after UI changes and `pnpm build` after application changes.
+Run `pnpm test` after UI changes, `pnpm test:e2e` for browser-flow changes, and `pnpm build` after application changes.
 
 ## Architecture
 
@@ -74,7 +77,7 @@ Use the `@/` alias for imports from `src` (for example, `@/shared/api/pokemon`).
 The `@/` alias is configured consistently in `tsconfig.app.json`, `vite.config.ts`, and `vitest.config.ts`.
 
 All source and test filenames must use kebab-case, for example `pokemon-card.tsx` and `pokemon-card.test.tsx`. Keep exported component names in PascalCase even when their filenames are kebab-case.
-Keep all unit and component tests under `src/shared/tests/`. Keep shared Vitest setup in `src/shared/tests/setup.ts`.
+Keep all unit, component, and end-to-end tests under `src/shared/tests/`. Keep browser tests under `src/shared/tests/e2e/` and shared Vitest setup in `src/shared/tests/setup.ts`.
 
 ## Data fetching and state
 
@@ -114,6 +117,7 @@ Keep all unit and component tests under `src/shared/tests/`. Keep shared Vitest 
 ## Testing conventions
 
 - Use Vitest with `jsdom` for unit and UI tests.
+- Use Playwright for end-to-end tests; keep browser tests independent from external APIs by routing deterministic test responses.
 - Use React Testing Library and `user-event` for component behavior.
 - Test user-visible behavior rather than implementation details.
 - Reset Zustand state explicitly in tests that mutate global state.

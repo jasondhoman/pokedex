@@ -27,6 +27,7 @@ The app uses the public [PokéAPI](https://pokeapi.co/) to display the first 24 
 - Tailwind CSS for utility-first styling
 - Sass/SCSS for the global stylesheet
 - Vitest and React Testing Library for UI tests
+- Playwright for browser end-to-end tests
 - ESLint with `@antfu/eslint-config`
 
 ## Architecture
@@ -64,10 +65,11 @@ Open the local Vite URL shown in the terminal to use the app.
 ```bash
 pnpm lint
 pnpm test
+pnpm test:e2e
 pnpm build
 ```
 
-`pnpm lint` runs Antfu's ESLint flat configuration with TypeScript-aware rules. `pnpm test` runs the Vitest suite in a JSDOM environment. `pnpm build` type-checks the project and creates the production bundle.
+`pnpm lint` runs Antfu's ESLint flat configuration with TypeScript-aware rules. `pnpm test` runs the Vitest suite in a JSDOM environment. `pnpm test:e2e` starts the production preview server and runs Playwright browser tests against Chromium. `pnpm build` type-checks the project and creates the production bundle.
 
 ## GitHub Pages deployment
 

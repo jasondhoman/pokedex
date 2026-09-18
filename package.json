@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc -b",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -31,6 +33,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^9.5.1",
     "@eslint-react/eslint-plugin": "^5.19.1",
+    "@playwright/test": "^1.63.0",
     "@tanstack/router-plugin": "^1.168.40",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
