@@ -206,6 +206,10 @@ nav a.active {
   font-family: "DM Mono";
   font-size: 11px;
 }
+.favorites-nav svg {
+  display: block;
+  flex: 0 0 auto;
+}
 .favorites-nav.active {
   color: #282522;
 }
@@ -863,10 +867,12 @@ footer a {
 .app-shell[data-theme="dark"] .brand,
 .app-shell[data-theme="dark"] nav a.active,
 .app-shell[data-theme="dark"] .favorites-nav.active,
-.app-shell[data-theme="dark"] .brand > span:last-child span,
 .app-shell[data-theme="dark"] footer a,
 .app-shell[data-theme="dark"] .github-link {
   color: var(--dark-green);
+}
+.app-shell[data-theme="dark"] .brand > span:last-child span {
+  color: #ef5350;
 }
 .app-shell[data-theme="dark"] .brand-mark,
 .app-shell[data-theme="dark"] .ui-button-default,
