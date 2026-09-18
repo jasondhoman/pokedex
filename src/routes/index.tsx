@@ -93,8 +93,8 @@ export function CatalogPage() {
           )}
           {!isLoading && !isError && (
             <nav className="pagination" aria-label="Pokémon pages">
-              <Button variant="outline" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
-                ←
+              <Button type="button" variant="outline" onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1}>
+                Previous
               </Button>
               <span className="text-nowrap">
                 Page
@@ -105,8 +105,8 @@ export function CatalogPage() {
                 {" "}
                 {totalPages}
               </span>
-              <Button variant="outline" onClick={() => goToPage(currentPage + 1)} disabled={currentPage >= totalPages}>
-                →
+              <Button type="button" variant="outline" onClick={() => goToPage(currentPage + 1)} disabled={currentPage >= totalPages}>
+                Next
               </Button>
             </nav>
           )}

@@ -31,7 +31,7 @@ function Shell() {
               {" "}
               {favoritesCount}
               {" "}
-              saved
+              Collection
             </Link>
             <button
               type="button"

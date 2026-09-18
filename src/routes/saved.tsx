@@ -18,11 +18,15 @@ import { formatPokemonName, pokemonApi } from "@/shared/api/pokemon";
 import { useDebouncedValue } from "@/shared/lib/use-debounced-value";
 import { Button } from "@/shared/ui/button";
 import { PokeballIcon } from "@/shared/ui/pokeball-icon";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 
 export const Route = createFileRoute("/saved")({ component: SavedPage });
 
 const features = tableFeatures({});
 const columnHelper = createColumnHelper<typeof features, Pokemon>();
+type PageSize = 10 | 20 | 30 | "all";
+type SortKey = "id" | "name" | "types" | "height" | "weight";
+type SortDirection = "asc" | "desc";
 
 export function SavedPage() {
   const favorites = useFavoritesStore(state => state.favorites);
@@ -30,6 +34,9 @@ export function SavedPage() {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebouncedValue(search);
   const [selectedName, setSelectedName] = useState<string | null>(favorites[0] ?? null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<PageSize>(10);
+  const [sort, setSort] = useState<{ key: SortKey; direction: SortDirection }>({ key: "id", direction: "asc" });
   const { data: savedPokemon = [], isLoading, isError } = useQuery({
     queryKey: ["pokemon", "saved", favorites],
     queryFn: () => Promise.all(favorites.map(name => pokemonApi.detail(name))),
@@ -45,6 +52,19 @@ export function SavedPage() {
 
   const selectedPokemon = savedPokemon.find(pokemon => pokemon.name === selectedName) ?? null;
   const filteredPokemon = savedPokemon.filter(pokemon => pokemon.name.includes(debouncedSearch.trim().toLowerCase()));
+  const sortedPokemon = useMemo(() => [...filteredPokemon].sort((a, b) => {
+    const first = sort.key === "types" ? a.types.map(({ type }) => type.name).join(" / ") : a[sort.key];
+    const second = sort.key === "types" ? b.types.map(({ type }) => type.name).join(" / ") : b[sort.key];
+    const comparison = typeof first === "number" && typeof second === "number"
+      ? first - second
+      : String(first).localeCompare(String(second));
+    return sort.direction === "asc" ? comparison : -comparison;
+  }), [filteredPokemon, sort]);
+  const totalPages = pageSize === "all" ? 1 : Math.max(1, Math.ceil(sortedPokemon.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const visiblePokemon = pageSize === "all"
+    ? sortedPokemon
+    : sortedPokemon.slice((currentPage - 1) * pageSize, currentPage * pageSize);
   const columns = useMemo(() => columnHelper.columns([
     columnHelper.accessor("id", {
       header: "No.",
@@ -88,10 +108,20 @@ export function SavedPage() {
   ]), [toggleFavorite]);
 
   const table = useTable({
-    data: filteredPokemon,
+    data: visiblePokemon,
     columns,
     features,
   });
+
+  useEffect(() => {
+    setPage(1);
+  }, [debouncedSearch, pageSize, sort]);
+
+  function toggleSort(key: SortKey) {
+    setSort(current => current.key === key
+      ? { key, direction: current.direction === "asc" ? "desc" : "asc" }
+      : { key, direction: "asc" });
+  }
 
   return (
     <div className="page-container saved-page">
@@ -138,7 +168,20 @@ export function SavedPage() {
             <table className="saved-table">
               <thead>
                 {table.getHeaderGroups().map(headerGroup => (
-                  <tr key={headerGroup.id}>{headerGroup.headers.map(header => <th key={header.id}>{header.isPlaceholder ? null : <table.FlexRender header={header} />}</th>)}</tr>
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map(header => (
+                      <th key={header.id}>
+                        {header.isPlaceholder || header.id === "actions"
+                          ? null
+                          : (
+                              <button type="button" className="table-sort" onClick={() => toggleSort(header.id as SortKey)}>
+                                <table.FlexRender header={header} />
+                                <span aria-hidden="true">{sort.key === header.id ? (sort.direction === "asc" ? "↑" : "↓") : "↕"}</span>
+                              </button>
+                            )}
+                      </th>
+                    ))}
+                  </tr>
                 ))}
               </thead>
               <tbody>
@@ -147,7 +190,7 @@ export function SavedPage() {
                     {row.getAllCells().map(cell => <td key={cell.id}><table.FlexRender cell={cell} /></td>)}
                   </tr>
                 ))}
-                {filteredPokemon.length === 0 && (
+                {sortedPokemon.length === 0 && (
                   <tr>
                     <td colSpan={columns.length}>
                       No saved Pokémon match “
@@ -158,6 +201,29 @@ export function SavedPage() {
                 )}
               </tbody>
             </table>
+          </div>
+          <div className="saved-table-pagination">
+            <span>
+              {sortedPokemon.length === 0 ? 0 : ((currentPage - 1) * (pageSize === "all" ? sortedPokemon.length : pageSize)) + 1}
+              –
+              {pageSize === "all" ? sortedPokemon.length : Math.min(currentPage * pageSize, sortedPokemon.length)}
+              {" of "}
+              {sortedPokemon.length}
+            </span>
+            <div className="saved-page-controls">
+              <Button type="button" variant="outline" onClick={() => setPage(currentPage - 1)} disabled={currentPage === 1}>Previous</Button>
+              <span>{`Page ${currentPage} of ${totalPages}`}</span>
+              <Button type="button" variant="outline" onClick={() => setPage(currentPage + 1)} disabled={currentPage === totalPages}>Next</Button>
+              <Select value={String(pageSize)} onValueChange={value => setPageSize(value === "all" ? "all" : Number(value) as PageSize)}>
+                <SelectTrigger className="saved-page-size"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="10">10 per page</SelectItem>
+                  <SelectItem value="20">20 per page</SelectItem>
+                  <SelectItem value="30">30 per page</SelectItem>
+                  <SelectItem value="all">All</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           {selectedPokemon && <SavedDetail pokemon={selectedPokemon} />}
         </>

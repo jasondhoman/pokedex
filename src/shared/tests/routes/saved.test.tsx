@@ -107,4 +107,28 @@ describe("savedPage", () => {
 
     await waitFor(() => expect(screen.getByText(/no saved pokémon match/i)).toBeInTheDocument());
   });
+
+  it("sorts rows and pages through the collection", async () => {
+    const user = userEvent.setup();
+    const names = ["zubat", "abra", "bellsprout", "caterpie", "diglett", "eevee", "gastly", "horsea", "ivysaur", "jigglypuff", "kakuna"];
+    useFavoritesStore.setState({ favorites: names });
+    vi.spyOn(pokemonApi, "detail").mockImplementation(async name => ({
+      ...bulbasaur,
+      id: names.indexOf(name) + 1,
+      name,
+    }));
+    renderSaved();
+
+    expect(await screen.findByText("Page 1 of 2")).toBeInTheDocument();
+    expect(screen.getByRole("row", { name: /zubat/i })).toBeInTheDocument();
+    expect(screen.queryByRole("row", { name: /kakuna/i })).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /name/i }));
+    const rows = screen.getAllByRole("row");
+    expect(rows[1]).toHaveTextContent("abra");
+
+    await user.click(screen.getByRole("button", { name: "Next" }));
+    expect(screen.getByText("Page 2 of 2")).toBeInTheDocument();
+    expect(screen.getByRole("row", { name: /zubat/i })).toBeInTheDocument();
+  });
 });
