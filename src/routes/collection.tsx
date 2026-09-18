@@ -17,6 +17,7 @@ import { PokemonSearch } from "@/features/search/pokemon-search";
 import { formatPokemonName, pokemonApi } from "@/shared/api/pokemon";
 import { useDebouncedValue } from "@/shared/lib/use-debounced-value";
 import { Button } from "@/shared/ui/button";
+import { ImageWithSkeleton } from "@/shared/ui/image-with-skeleton";
 import { PokeballIcon } from "@/shared/ui/pokeball-icon";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 
@@ -236,7 +237,7 @@ function CollectionDetail({ pokemon }: { pokemon: Pokemon }) {
   const artwork = pokemon.sprites.other?.["official-artwork"]?.front_default ?? pokemon.sprites.front_default;
   return (
     <article className="collection-detail">
-      <div className="collection-detail-art"><img src={artwork ?? ""} alt={pokemon.name} /></div>
+      <div className="collection-detail-art"><ImageWithSkeleton src={artwork ?? ""} alt={pokemon.name} /></div>
       <div className="collection-detail-copy">
         <span className="result-label">SELECTED POKÉMON</span>
         <h2>{formatPokemonName(pokemon.name)}</h2>

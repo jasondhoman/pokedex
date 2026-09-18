@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { useFavoritesStore } from "@/features/favorites/model/store";
 import { formatPokemonName, getPokemonId } from "@/shared/api/pokemon";
 import { Button } from "@/shared/ui/button";
+import { ImageWithSkeleton } from "@/shared/ui/image-with-skeleton";
 import { PokeballIcon } from "@/shared/ui/pokeball-icon";
 
 type Props = { pokemon: PokemonSummary };
@@ -22,7 +23,7 @@ export function PokemonCard({ pokemon }: Props) {
             #
             {String(id).padStart(3, "0")}
           </span>
-          <img
+          <ImageWithSkeleton
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`}
             alt={pokemon.name}
             loading="lazy"

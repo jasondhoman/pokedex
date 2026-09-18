@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
 
 import { formatPokemonName, pokemonApi } from "@/shared/api/pokemon";
+import { ImageWithSkeleton } from "@/shared/ui/image-with-skeleton";
 
 export const Route = createFileRoute("/pokemon/$pokemonName")({ component: DetailPage });
 
@@ -29,7 +30,7 @@ function DetailPage() {
             #
             {String(pokemon.id).padStart(3, "0")}
           </span>
-          <img src={artwork ?? ""} alt={pokemon.name} />
+          <ImageWithSkeleton src={artwork ?? ""} alt={pokemon.name} />
         </div>
         <div className="detail-copy">
           <div className="eyebrow">POKÉMON PROFILE</div>

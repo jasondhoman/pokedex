@@ -10,6 +10,7 @@ import { z } from "zod";
 import { useFavoritesStore } from "@/features/favorites/model/store";
 import { formatPokemonName, pokemonApi } from "@/shared/api/pokemon";
 import { Button } from "@/shared/ui/button";
+import { ImageWithSkeleton } from "@/shared/ui/image-with-skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
 
 const discoverSchema = z.object({
@@ -158,25 +159,25 @@ export function DiscoverForm() {
         {hasSearched && !discoverQuery.isFetching && !discoverQuery.isError && (
           result
             ? (
-              <div className="discover-result">
-                <span className="result-label">YOUR MATCH</span>
-                <div className="discover-result-art">
-                  <span>
-                    #
-                    {String(result.id).padStart(3, "0")}
-                  </span>
-                  <img
-                    src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${result.id}.png`}
-                    alt={result.name}
-                  />
+                <div className="discover-result">
+                  <span className="result-label">YOUR MATCH</span>
+                  <div className="discover-result-art">
+                    <span>
+                      #
+                      {String(result.id).padStart(3, "0")}
+                    </span>
+                    <ImageWithSkeleton
+                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${result.id}.png`}
+                      alt={result.name}
+                    />
+                  </div>
+                  <div className="discover-result-copy">
+                    <h2>{formatPokemonName(result.name)}</h2>
+                    <p>This one is waiting to be discovered.</p>
+                    <Link to="/pokemon/$pokemonName" params={{ pokemonName: result.name }}>View profile ↗</Link>
+                  </div>
                 </div>
-                <div className="discover-result-copy">
-                  <h2>{formatPokemonName(result.name)}</h2>
-                  <p>This one is waiting to be discovered.</p>
-                  <Link to="/pokemon/$pokemonName" params={{ pokemonName: result.name }}>View profile ↗</Link>
-                </div>
-              </div>
-            )
+              )
             : <div className="discover-empty">No collection Pokémon match those preferences. Try broadening your search or adding fewer Pokémon.</div>
         )}
       </section>

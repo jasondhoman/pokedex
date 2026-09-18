@@ -540,6 +540,33 @@ nav a.active {
 .collection-empty p {
   margin: 0;
 }
+.image-loading-wrapper {
+  position: relative;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+}
+.image-loading-wrapper.is-loading > img {
+  opacity: 0;
+}
+.image-loading-skeleton {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  animation: pokeball-loading 1.1s ease-in-out infinite;
+}
+@keyframes pokeball-loading {
+  0%,
+  100% {
+    transform: scale(0.9) rotate(-8deg);
+    opacity: 0.65;
+  }
+  50% {
+    transform: scale(1) rotate(8deg);
+    opacity: 1;
+  }
+}
 .pokemon-grid,
 .loading-grid {
   display: grid;
