@@ -25,15 +25,16 @@ function DetailPage() {
         Back to all Pokémon
       </Link>
       <section className="detail-card">
-        <div className="detail-art">
-          <span>
-            #
-            {String(pokemon.id).padStart(3, "0")}
-          </span>
+        <div className="collection-detail-art">
+
           <ImageWithSkeleton src={artwork ?? ""} alt={pokemon.name} />
         </div>
         <div className="detail-copy">
           <div className="eyebrow">POKÉMON PROFILE</div>
+          <span>
+            #
+            {String(pokemon.id).padStart(3, "0")}
+          </span>
           <h1>{formatPokemonName(pokemon.name)}</h1>
           <div className="type-list">{pokemon.types.map(({ type }) => <span key={type.name} className={`type-pill type-${type.name}`}>{type.name}</span>)}</div>
           <div className="measurements">
