@@ -7,6 +7,17 @@ import { PokeballIcon } from "@/shared/ui/pokeball-icon";
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } } });
 
+export function NotFoundPage() {
+  return (
+    <div className="page-container not-found-page">
+      <div className="eyebrow">SIGNAL LOST</div>
+      <h1>Page not found.</h1>
+      <p>The route you requested does not exist in this Pokédex.</p>
+      <Link to="/" className="not-found-link">Return to the Pokédex ↗</Link>
+    </div>
+  );
+}
+
 function Shell() {
   const favoritesCount = useFavoritesStore(state => state.favorites.length);
   const theme = useThemeStore(state => state.theme);
@@ -75,4 +86,4 @@ function Shell() {
   );
 }
 
-export const Route = createRootRoute({ component: Shell });
+export const Route = createRootRoute({ component: Shell, notFoundComponent: NotFoundPage });

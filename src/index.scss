@@ -200,6 +200,36 @@ nav a.active {
   margin: 0 auto;
   flex: 1;
 }
+.not-found-page {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  min-height: 60vh;
+}
+.not-found-page h1 {
+  margin: 1rem 0;
+  color: #282522;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  letter-spacing: -0.08em;
+  line-height: 0.9;
+}
+.not-found-page p {
+  max-width: 28rem;
+  color: #868078;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+.not-found-link {
+  margin-top: 1.5rem;
+  color: #ef5350;
+  font: 0.7rem "DM Mono";
+}
+.app-shell[data-theme="dark"] .not-found-page h1 {
+  color: var(--dark-green);
+}
+.app-shell[data-theme="dark"] .not-found-page p {
+  color: #54c96c;
+}
 .hero-copy {
   padding: clamp(3.5rem, 8vw, 4.875rem) 0 clamp(2.5rem, 5vw, 3.3125rem);
 }
