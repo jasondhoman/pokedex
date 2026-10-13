@@ -1,3 +1,4 @@
+import axios, { AxiosHeaders } from "axios";
 import { describe, expect, it, vi } from "vitest";
 
 import { formatPokemonName, getPokemonId, pokemonApi } from "@/shared/api/pokemon";
@@ -13,16 +14,25 @@ describe("pokemon api helpers", () => {
 
   it("requests paginated Pokémon summaries", async () => {
     const response = { count: 1, results: [{ name: "pikachu", url: "/25/" }] };
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response(JSON.stringify(response), { status: 200 })));
+    vi.spyOn(axios, "get").mockResolvedValue({
+      data: response,
+      status: 200,
+      statusText: "OK",
+      headers: {},
+      config: { headers: new AxiosHeaders() },
+    });
 
     await expect(pokemonApi.list(12, 24)).resolves.toEqual(response);
-    expect(fetch).toHaveBeenCalledWith("https://pokeapi.co/api/v2/pokemon?limit=12&offset=24");
+    expect(axios.get).toHaveBeenCalledWith("https://pokeapi.co/api/v2/pokemon?limit=12&offset=24");
   });
 
   it("normalizes detail names and reports API failures", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("error", { status: 500 })));
+    vi.spyOn(axios, "get").mockRejectedValue(Object.assign(new Error("Request failed"), {
+      isAxiosError: true,
+      response: { status: 500 },
+    }));
 
     await expect(pokemonApi.detail("Mr-Mime")).rejects.toThrow("Unable to reach the Pokédex right now.");
-    expect(fetch).toHaveBeenCalledWith("https://pokeapi.co/api/v2/pokemon/mr-mime");
+    expect(axios.get).toHaveBeenCalledWith("https://pokeapi.co/api/v2/pokemon/mr-mime");
   });
 });
