@@ -1,4 +1,4 @@
-import axios from "axios";
+import { http } from "@/shared/api/client";
 
 export type PokemonSummary = {
   name: string;
@@ -26,16 +26,7 @@ type PokemonListResponse = {
 const API_URL = "https://pokeapi.co/api/v2";
 
 async function fetchJson<T>(path: string): Promise<T> {
-  try {
-    const { data } = await axios.get<T>(`${API_URL}${path}`);
-    return data;
-  }
-  catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      throw new Error("Unable to reach the Pokédex right now.", { cause: error });
-    }
-    throw error;
-  }
+  return http.get<T>(`${API_URL}${path}`);
 }
 
 export const pokemonApi = {
